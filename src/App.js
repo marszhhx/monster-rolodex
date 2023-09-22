@@ -4,30 +4,31 @@ import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
+  // set initial state(data)
   constructor() {
     super();
     this.state = {
-      monsters: [
-        {
-          id: "123#!@SDF",
-          name: "Linda",
-        },
-        {
-          id: "$!@$Vasdf",
-          name: "Frank",
-        },
-        {
-          id: "cadsf523",
-          name: "Jacky",
-        },
-        {
-          id: "casdftgvv1",
-          name: "Mars",
-        },
-      ],
+      monsters: [],
     };
   }
 
+  // get state(data) from API call
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users") // asynchronous
+      .then((response) => response.json())
+      .then((users) =>
+        this.setState(
+          () => {
+            return { monsters: users };
+          },
+          () => {
+            console.log(this.state);
+          }
+        )
+      );
+  }
+
+  // render state in certain format
   render() {
     return (
       <div className="App">
