@@ -1,6 +1,4 @@
 import { Component } from "react";
-
-import logo from "./logo.svg";
 import "./App.css";
 
 class App extends Component {
@@ -9,7 +7,7 @@ class App extends Component {
     super();
     this.state = {
       monsters: [],
-      searchField: '',
+      searchField: "",
     };
     console.log("constructor");
   }
@@ -31,11 +29,22 @@ class App extends Component {
       );
   }
 
+  onSearchChange = (event) => {
+    const searchField = event.target.value.toLowerCase();
+    this.setState(() => {
+      return { searchField };
+    });
+  };
+
   // render state in certain format
   render() {
     console.log("render");
-    const filteredMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLowerCase().includes(this.state.searchField);
+
+    const { monsters, searchField } = this.state;
+    const { onSearchChange } = this;
+
+    const filteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLowerCase().includes(searchField);
     });
 
     return (
@@ -44,18 +53,7 @@ class App extends Component {
           className="search-box"
           type="search"
           placeholder="search monsters"
-          onChange={(event) => {
-            console.log(event.target.value);
-            const searchField = event.target.value.toLowerCase();
-            this.setState(
-              () => {
-                return { searchField };
-              },
-              () => {
-                console.log(this.state);
-              }
-            );
-          }}
+          onChange={onSearchChange}
         />
         {filteredMonsters.map((monster) => {
           return (
